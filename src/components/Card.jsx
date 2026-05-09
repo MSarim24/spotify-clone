@@ -6,6 +6,7 @@ function Card({ title, subtitle, image, type, id }) {
   const handleClick = () => {
     if (type === "artist") navigate(`/artist/${id}`);
     if (type === "playlist") navigate(`/playlist/${id}`);
+    if (type === "album") navigate(`/album/${id}`);
   };
 
   return (

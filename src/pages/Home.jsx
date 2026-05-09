@@ -1,11 +1,14 @@
 import Layout from "../components/Layout";
 import Row from "../components/Row";
 import Card from "../components/Card";
-import { useState } from "react";
 
 function Home() {
   const quickAccess = [
-    { id: 1, title: "Bhool", img: "https://via.placeholder.com/50" },
+    {
+      id: 1,
+      title: "Bhool",
+      img: "https://t2.genius.com/unsafe/430x430/https%3A%2F%2Fimages.genius.com%2F441a51786e36f25b3e9c57b9d8149305.1000x1000x1.png",
+    },
     { id: 2, title: "English", img: "https://via.placeholder.com/50" },
     { id: 3, title: "Tum Ho Radio", img: "https://via.placeholder.com/50" },
     { id: 4, title: "Mood 2", img: "https://via.placeholder.com/50" },

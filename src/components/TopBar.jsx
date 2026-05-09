@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 
-function TopBar() {
+function TopBar({ onOpenLogin }) {
   const navigate = useNavigate();
   return (
     <div className="topbar">
@@ -36,7 +36,9 @@ function TopBar() {
       </div>
 
       <div className="topbar-right">
-        <button className="login-btn">Log in</button>
+        <button className="login-btn" onClick={onOpenLogin}>
+          Log in
+        </button>
       </div>
     </div>
   );
