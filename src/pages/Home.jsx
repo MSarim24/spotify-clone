@@ -1,6 +1,7 @@
 import Layout from "../components/Layout";
 import Row from "../components/Row";
 import Card from "../components/Card";
+import { useState } from "react";
 
 function Home() {
   const quickAccess = [

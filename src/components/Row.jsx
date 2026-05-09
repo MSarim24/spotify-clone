@@ -3,9 +3,7 @@ function Row({ title, children }) {
     <div className="row">
       <h2>{title}</h2>
 
-      <div className="row-cards">
-        {children}
-      </div>
+      <div className="row-cards">{children}</div>
     </div>
   );
 }
