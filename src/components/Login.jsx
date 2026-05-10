@@ -1,15 +1,41 @@
 import Signup from "./Signup";
 import { useState } from "react";
-function Login({ onClose }) {
+import axios from "axios";
+
+function Login({ onClose, isClosable = true }) {
   const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      const response = await axios.post(
+        "http://localhost:5001/api/auth/login",
+        {
+          email,
+          password,
+        },
+      );
+      localStorage.setItem("token", response.data.token);
+      onClose();
+      window.location.reload();
+    } catch (err) {
+      const backendMessage = err.response?.data?.message || "Login failed";
+      setError(backendMessage);
+    }
+  };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" onClick={isClosable ? onClose : undefined}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose} title="Close">
-          ✕
-        </button>
-
+        {isClosable && (
+          <button className="modal-close" onClick={onClose} title="Close">
+            ✕
+          </button>
+        )}
         <div className="modal-header">
           {/* Spotify-style Logo SVG */}
           <svg viewBox="0 0 24 24" fill="white" width="40" height="40">
@@ -18,14 +44,37 @@ function Login({ onClose }) {
           <h1>Welcome back</h1>
         </div>
 
-        <form className="modal-form" onSubmit={(e) => e.preventDefault()}>
+        {error && (
+          <div
+            style={{
+              color: "#f15e6c",
+              textAlign: "center",
+              marginBottom: "10px",
+            }}
+          >
+            {error}
+          </div>
+        )}
+        <form className="modal-form" onSubmit={handleLogin}>
           <div className="input-group">
             <label>Email</label>
-            <input type="email" placeholder="Email address" required />
+            <input
+              type="email"
+              placeholder="Email address"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
           <div className="input-group">
             <label>Password</label>
-            <input type="password" placeholder="Password" required />
+            <input
+              type="password"
+              placeholder="Password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
           <button type="submit" className="modal-submit-btn">
             Continue

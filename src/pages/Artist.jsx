@@ -1,7 +1,6 @@
 import { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Layout from "../components/Layout";
 import LikeButton from "../components/LikeButton";
 import Row from "../components/Row";
 import { usePlayer } from "../context/PlayerContext";
@@ -77,7 +76,7 @@ function Artist() {
   };
 
   return (
-    <Layout>
+    <>
       <div className="artist-page">
         {/* 1. Hero Banner */}
         <div
@@ -169,7 +168,7 @@ function Artist() {
           ))}
         </Row>
       </div>
-    </Layout>
+    </>
   );
 }
 

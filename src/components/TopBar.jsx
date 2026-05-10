@@ -2,6 +2,11 @@ import { Link, useNavigate } from "react-router-dom";
 
 function TopBar({ onOpenLogin }) {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
   return (
     <div className="topbar">
       <div className="topbar-nav">
@@ -47,7 +52,7 @@ function TopBar({ onOpenLogin }) {
               if (query.trim() === "") {
                 navigate("/");
               } else {
-                navigate(`/search?q=${query}`); // Update the URL as they type!
+                navigate(`/search?q=${query}`);
               }
             }}
           />
@@ -55,9 +60,23 @@ function TopBar({ onOpenLogin }) {
       </div>
 
       <div className="topbar-right">
-        <button className="login-btn" onClick={onOpenLogin}>
-          Log in
-        </button>
+        {token ? (
+          <button
+            className="login-btn"
+            onClick={handleLogout}
+            style={{
+              backgroundColor: "#282828",
+              color: "white",
+              border: "1px solid #727272",
+            }}
+          >
+            Log out
+          </button>
+        ) : (
+          <button className="login-btn" onClick={onOpenLogin}>
+            Log in
+          </button>
+        )}
       </div>
     </div>
   );

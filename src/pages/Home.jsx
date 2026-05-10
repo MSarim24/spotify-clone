@@ -1,7 +1,5 @@
-import Layout from "../components/Layout";
 import Row from "../components/Row";
 import Card from "../components/Card";
-import { useState } from "react";
 
 function Home() {
   const quickAccess = [
@@ -24,7 +22,7 @@ function Home() {
   ];
 
   return (
-    <Layout>
+    <>
       <div className="quick-access-grid">
         {quickAccess.map((item) => (
           <div key={item.id} className="quick-card">
@@ -74,7 +72,7 @@ function Home() {
           image="https://via.placeholder.com/150"
         />
       </Row>
-    </Layout>
+    </>
   );
 }
 

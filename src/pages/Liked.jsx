@@ -1,5 +1,3 @@
-import Layout from "../components/Layout";
-
 function Liked() {
   const filters = [
     "Quiet",
@@ -40,7 +38,7 @@ function Liked() {
   ];
 
   return (
-    <Layout>
+    <>
       <div className="liked-page">
         {/* 1. Hero Header */}
         <div className="playlist-header">
@@ -103,7 +101,7 @@ function Liked() {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 }
 

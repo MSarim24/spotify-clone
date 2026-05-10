@@ -1,4 +1,37 @@
+import { useState } from "react";
+import axios from "axios";
+
 function Signup({ onClose }) {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (password !== confirmPassword) {
+      return setError("Passwords do not match!");
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5001/api/auth/register",
+        {
+          user_name: username,
+          email,
+          password,
+        },
+      );
+      alert("Signup successful! You can now log in.");
+      onClose();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -11,18 +44,53 @@ function Signup({ onClose }) {
           </svg>
           <h1>Welcome to spotify</h1>
         </div>
-        <form className="modal-form" onSubmit={(e) => e.preventDefault()}>
+        {error && (
+          <div
+            style={{
+              color: "#f15e6c",
+              textAlign: "center",
+              marginBottom: "10px",
+            }}
+          >
+            {error}
+          </div>
+        )}
+        <form className="modal-form" onSubmit={handleSignup}>
           <div className="input-group">
-            <label>Email</label>
-            <input type="email" placeholder="Email address" required />
+            <input
+              type="text"
+              placeholder="Username"
+              required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
           </div>
           <div className="input-group">
-            <label>Password</label>
-            <input type="password" placeholder="Password" required />
+            <input
+              type="email"
+              placeholder="Email address"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
           <div className="input-group">
-            <label>Confirm Password</label>
-            <input type="password" placeholder="Confirm password" required />
+            <input
+              type="password"
+              placeholder="Password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className="input-group">
+            <input
+              type="password"
+              placeholder="Confirm password"
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
           </div>
           <button type="submit" className="modal-submit-btn">
             Continue

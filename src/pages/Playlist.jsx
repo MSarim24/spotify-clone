@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import Layout from "../components/Layout";
 
 function Playlist() {
   const { id } = useParams();
@@ -53,7 +52,7 @@ function Playlist() {
   ];
 
   return (
-    <Layout>
+    <>
       <div className="playlist-page">
         <div className="playlist-header">
           <img
@@ -122,7 +121,7 @@ function Playlist() {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 }
 

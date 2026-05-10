@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import Layout from "../components/Layout";
 import { usePlayer } from "../context/PlayerContext";
 
 function Album() {
@@ -44,7 +43,7 @@ function Album() {
   };
 
   return (
-    <Layout>
+    <>
       <div
         className="playlist-page"
         style={{
@@ -141,7 +140,7 @@ function Album() {
           </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
 }
 
