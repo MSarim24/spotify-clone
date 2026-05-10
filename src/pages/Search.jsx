@@ -4,14 +4,13 @@ import { usePlayer } from "../context/PlayerContext";
 import axios from "axios";
 
 function Search() {
+  const { playTrack } = usePlayer();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const query = searchParams.get("q") || "";
 
   const [results, setResults] = useState({ songs: [], artists: [] });
   const [loading, setLoading] = useState(false);
-
-  const { setCurrentSong, setIsPlaying } = usePlayer();
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -82,18 +81,7 @@ function Search() {
                   <div
                     className="track-row"
                     key={track.song_id}
-                    onClick={() => {
-                      setCurrentSong({
-                        id: track.song_id,
-                        title: track.song_name,
-                        artist: track.artist_id,
-                        img:
-                          track.cover_image ||
-                          "https://via.placeholder.com/150",
-                        audio: track.file_path,
-                      });
-                      setIsPlaying(true);
-                    }}
+                    onClick={() => playTrack(track)}
                   >
                     <div className="col-id">{index + 1}</div>
                     <div className="col-title">

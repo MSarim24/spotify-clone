@@ -1,4 +1,7 @@
+import { usePlayer } from "../context/PlayerContext";
+
 function Liked() {
+  const { playTrack } = usePlayer();
   const filters = [
     "Quiet",
     "Pop",
@@ -84,7 +87,11 @@ function Liked() {
           {/* Songs Map */}
           <div className="tracklist-rows">
             {likedTracks.map((track, index) => (
-              <div className="liked-track-grid track-row" key={track.id}>
+              <div
+                className="liked-track-grid track-row"
+                key={track.id}
+                onClick={() => playTrack(track)}
+              >
                 <div className="col-id">{index + 1}</div>
 
                 <div className="col-title track-title-cell">

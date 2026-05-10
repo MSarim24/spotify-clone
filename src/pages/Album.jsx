@@ -3,8 +3,7 @@ import { usePlayer } from "../context/PlayerContext";
 
 function Album() {
   const { id } = useParams();
-  const { setCurrentSong, setIsPlaying } = usePlayer();
-
+  const { playTrack } = usePlayer();
   const albumData = {
     title: "AM",
     artist: "Arctic Monkeys",
@@ -110,14 +109,7 @@ function Album() {
                 key={track.id}
                 style={gridStyle}
                 onClick={() => {
-                  setCurrentSong({
-                    id: track.id,
-                    title: track.title,
-                    artist: albumData.artist,
-                    img: albumData.coverImg,
-                    audio: "",
-                  });
-                  setIsPlaying(true);
+                  playTrack(track);
                 }}
               >
                 <div className="col-id">{index + 1}</div>

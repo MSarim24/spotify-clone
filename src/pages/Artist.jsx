@@ -8,7 +8,7 @@ import track505 from "../assets/Arctic Monkeys- 505.mp3";
 
 function Artist() {
   const { id } = useParams();
-  const { setCurrentSong, setIsPlaying } = usePlayer();
+  const { playTrack } = usePlayer();
   const navigate = useNavigate();
 
   const popularTracks = [
@@ -120,17 +120,8 @@ function Artist() {
             {popularTracks.map((track, index) => (
               <div
                 className="popular-row"
-                key={track.id}
-                onClick={() => {
-                  setCurrentSong({
-                    id: track.id,
-                    title: track.title,
-                    artist: "Arctic Monkeys",
-                    img: track.img,
-                    audio: track.audio, // Our test audio!
-                  });
-                  setIsPlaying(true);
-                }}
+                key={track.song_id}
+                onClick={() => playTrack(track)}
               >
                 <div className="col-id">{index + 1}</div>
                 <div className="col-title track-title-cell">

@@ -1,7 +1,9 @@
 import { useParams } from "react-router-dom";
+import { usePlayer } from "../context/PlayerContext";
 
 function Playlist() {
   const { id } = useParams();
+  const { playTrack } = usePlayer();
 
   const tracks = [
     {
@@ -104,7 +106,11 @@ function Playlist() {
 
           <div className="tracklist-rows">
             {tracks.map((track, index) => (
-              <div className="track-row" key={track.id}>
+              <div
+                className="track-row"
+                key={track.id}
+                onClick={() => playTrack(track)}
+              >
                 <div className="col-id">{index + 1}</div>
 
                 <div className="col-title track-title-cell">

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePlayer } from "../context/PlayerContext";
 import LikeButton from "./LikeButton";
 
@@ -6,11 +6,46 @@ function Player() {
   const { currentSong, isPlaying, setIsPlaying, likedSongs, toggleLike } =
     usePlayer();
   const audioRef = useRef(null);
+  const [progress, setProgress] = useState(0);
+  const [timestamps, setTimestamps] = useState({
+    current: "0:00",
+    total: "0:00",
+  });
+
+  const formatTime = (time) => {
+    if (!time) return "0:00";
+    const mins = Math.floor(time / 60);
+    const secs = Math.floor(time % 60);
+    return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
+  };
+
+  const handleTimeUpdate = () => {
+    const current = audioRef.current.currentTime;
+    const duration = audioRef.current.duration;
+    if (duration) {
+      setProgress((current / duration) * 100);
+      setTimestamps({
+        current: formatTime(current),
+        total: formatTime(duration),
+      });
+    }
+  };
+
+  const handleProgressChange = (e) => {
+    const newPercentage = e.target.value;
+    const duration = audioRef.current.duration;
+    if (duration) {
+      audioRef.current.currentTime = (newPercentage / 100) * duration;
+      setProgress(newPercentage);
+    }
+  };
 
   useEffect(() => {
     if (audioRef.current) {
       if (isPlaying) {
-        audioRef.current.play();
+        audioRef.current
+          .play()
+          .catch((err) => console.error("Playback failed", err));
       } else {
         audioRef.current.pause();
       }
@@ -19,7 +54,14 @@ function Player() {
 
   return (
     <div className="player">
-      {currentSong && <audio ref={audioRef} src={currentSong.audio} />}
+      {currentSong && (
+        <audio
+          ref={audioRef}
+          src={`http://localhost:5001${currentSong.audio}`}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={() => setIsPlaying(false)}
+        />
+      )}
 
       <div className="player-left">
         {currentSong ? (
@@ -81,17 +123,26 @@ function Player() {
         </div>
 
         <div className="playback-bar">
-          <span className="time">0:00</span>
+          <span className="time">{timestamps.current}</span>
           <div className="progress-bar-container">
-            <div className="progress-bar">
-              <div className="progress" style={{ width: "0%" }}></div>
-            </div>
+            <input
+              type="range"
+              className="progress-slider"
+              min="0"
+              max="100"
+              value={progress}
+              onChange={handleProgressChange}
+              style={{
+                width: "100%",
+                cursor: "pointer",
+                accentColor: "#1db954",
+              }}
+            />
           </div>
-          <span className="time">3:20</span>
+          <span className="time">{timestamps.total}</span>
         </div>
       </div>
 
-      {/* Right: Volume Controls */}
       <div className="player-right">
         <span className="volume-icon">🔊</span>
         <div className="volume-bar-container">

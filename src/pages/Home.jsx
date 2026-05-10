@@ -1,7 +1,9 @@
 import Row from "../components/Row";
 import Card from "../components/Card";
+import { usePlayer } from "../context/PlayerContext";
 
 function Home() {
+  const { playTrack } = usePlayer();
   const quickAccess = [
     {
       id: 1,
@@ -25,7 +27,11 @@ function Home() {
     <>
       <div className="quick-access-grid">
         {quickAccess.map((item) => (
-          <div key={item.id} className="quick-card">
+          <div
+            key={item.id}
+            className="quick-card"
+            onClick={() => playTrack(item)}
+          >
             <img src={item.img} alt={item.title} />
             <h4>{item.title}</h4>
           </div>
