@@ -31,7 +31,26 @@ function TopBar({ onOpenLogin }) {
           <span className="search-icon">
             <span class="material-symbols-outlined">search</span>
           </span>
-          <input type="text" placeholder="What do you want to play?" />
+          <input
+            type="text"
+            placeholder="What do you want to play?"
+            style={{
+              border: "none",
+              background: "transparent",
+              color: "white",
+              width: "100%",
+              outline: "none",
+              fontSize: "14px",
+            }}
+            onChange={(e) => {
+              const query = e.target.value;
+              if (query.trim() === "") {
+                navigate("/");
+              } else {
+                navigate(`/search?q=${query}`); // Update the URL as they type!
+              }
+            }}
+          />
         </div>
       </div>
 
