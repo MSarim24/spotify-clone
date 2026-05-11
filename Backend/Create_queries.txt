@@ -1,0 +1,66 @@
+Create table users(
+  user_id Int generated always as identity primary key,
+  user_name Varchar(255) Not NUll,
+  email Varchar(255) Not Null Unique,
+  password TEXT Not NUll
+)
+
+Create table artists (
+  artist_id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  artist_fname VARCHAR(100) Not NUll,
+  artist_lname VARCHAR(100),
+  about TEXT,
+  image_url TEXT
+)
+
+Create table albums (
+  album_id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  album_name VARCHAR(255) Not NUll,
+  album_image_url TEXT,
+  artist_id INT Not NUll REFERENCES artists(artist_id)
+)
+
+Create table songs (
+  song_id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  song_name VARCHAR(255) Not NUll,
+  genre VARCHAR(50),
+  image_url TEXT,
+  song_audio_url TEXT Not NUll,
+  duration INT Not NUll,
+  plays INT DEFAULT 0,
+  artist_id INT Not NUll REFERENCES artists(artist_id),
+  album_id INT REFERENCES albums(album_id)
+)
+
+Create table liked_songs (
+  user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+  song_id INT REFERENCES songs(song_id) ON DELETE CASCADE,
+  PRIMARY KEY (user_id, song_id)
+)
+
+Create table playlists (
+  playlist_id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  playlist_name VARCHAR(255) NOT NULL,
+  description TEXT,
+  user_id INT Not NUll REFERENCES users(user_id) ON DELETE CASCADE,
+  image_url TEXT 
+)
+
+Create table playlist_songs (
+  playlist_id INT REFERENCES playlists(playlist_id) ON DELETE CASCADE,
+  song_id INT REFERENCES songs(song_id) ON DELETE CASCADE,
+  PRIMARY KEY (playlist_id, song_id)
+)
+
+Create table followed_artists (
+  user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+  artist_id INT REFERENCES artists(artist_id) ON DELETE CASCADE,
+  PRIMARY KEY (user_id, artist_id)
+)
+
+Create table recently_played (
+  recent_id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+  song_id INT REFERENCES songs(song_id) ON DELETE CASCADE,
+  played_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
